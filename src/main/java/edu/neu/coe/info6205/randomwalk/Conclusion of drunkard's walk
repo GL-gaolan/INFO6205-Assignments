@@ -1,0 +1,73 @@
+#### Author
+[Lan gao](gao.lan@northeastern.edu)  
+001568670
+#### Task
+###### Question:  
+
+Your submission should include:
+
+1.Your conclusion about the relationship between d and n;
+2.Your evidence to support that relationship (screen shot and/or graph and/or spreadsheet);
+3.Your code (RandomWalk.java plus anything else that you changed or created);
+4.A screen shot of the unit tests all passing.
+
++ Output of RandomWalk
+![](./images/Output of RandomWalk.png)
++ Tests Results
+![](./images/Tests Result.png)
++ My own test
+![](./images/MyOwnTest.png)
+
+#### Conclusion
+>  **n : number of steps**
+>
+>  **d : the distance between the man and the lamp post.**
+
+Delta is the difference between the expected value and the actual value. The more tests, the more likely Delta will be to zero
+$$
+\sqrt n = d \pm \Delta
+$$
+
+###### Prove
+
+According to the given topic, we can only get the expected value of the distance, that is, to find the following expected value
+$$
+E_n(X^2+Y^2)=\sum(x^2+y^2)P(X=x,Y=y)
+$$
+
+According to the same possibility of the four directions, it can be concluded that
+$$
+P(X=x+1,Y=y)=P(X=x+1,Y=y|X=x,Y=y)P(X=x,Y=y)=\frac{1}{4}P(X=x,Y=y)
+$$
+
+Therefore，for N=n+1 :
+$$
+E_{n+1}(X^2+Y^2)=\frac{1}{4}\sum {[(x+1)^2+y^2]+[x^2+(y+1)^2]+[(x-1)^2+y^2]+[x^2+(y-1)^2]} P(X=x,Y=y)
+$$
+
+A fter simplificated, we got :
+$$
+E_{n+1}(X^2+Y^2)=\sum (x^2+y^2+1)P(X=x,Y=y)=E_n(X^2+Y^2)+\sum P(X=x,Y=y)
+$$
+Absolutely
+$$
+\sum P(X=x,Y=y) = 1
+$$
+So, we get
+$$
+E_{n}(X^2+Y^2)=n
+$$
+
+That is to say, the number of steps is the square of the expected Euclidean distance
+
+##### Provement of the test results
+
++ When n=10000, delta=2 could pass the test successfully;
+
+![](./images/10000-2-success.png)
+
++ When n=100, delta=2 failed to pass the test;
+
+![](./images/100-2-failed.jpeg)
+
+That is to say, as the number of test getting bigger, delta will tend to 0. 
