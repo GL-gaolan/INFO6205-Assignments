@@ -53,7 +53,7 @@ Absolutely
 $$
 \sum P(X=x,Y=y) = 1
 $$
-So, we get
+So, we got
 $$
 E_{n}(X^2+Y^2)=n
 $$
@@ -62,12 +62,19 @@ That is to say, the number of steps is the square of the expected Euclidean dist
 
 ##### Provement of the test results
 
-+ When n=10000, delta=2 could pass the test successfully;
+From my now test in the below picture, by comparing the expectation, average and their difference 
 
-![](./images/10000-2-success.png)
+![](./images/MyOwnTest.png)
 
-+ When n=100, delta=2 failed to pass the test;
+The the conclusion above can be proved by the result below
 
-![](./images/100-2-failed.jpeg)
+![](./images/result1.png)
 
-That is to say, as the number of test getting bigger, delta will tend to 0. 
+![](./images/result2.png)
+
+![](./images/result3.png)
+
+![](./images/result4.png)
+
+
+

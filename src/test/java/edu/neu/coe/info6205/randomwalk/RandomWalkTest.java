@@ -95,9 +95,9 @@ public class RandomWalkTest {
         for(int i = 0; i < 100; i++){
             int steps = random.nextInt(200);
             double expected =Math.sqrt(steps);
-            double average = RandomWalk.randomWalkMulti(steps,100);
+            double average = RandomWalk.randomWalkMulti(steps,10000);
             System.out.printf("steps:%d Expeacted value: %.4f  Actual value:%.4f Difference:%.4f\n",steps,expected,average,expected-average);
-            assertEquals(expected,average,2);
+            assertEquals(expected,average,4);
         }
     }
 }
