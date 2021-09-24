@@ -10,6 +10,8 @@ import edu.neu.coe.info6205.util.Config;
 
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
+    public static final String DESCRIPTION = "Insertion sort";
+
     /**
      * Constructor for any sub-classes to use.
      *
@@ -57,11 +59,16 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
      */
     public void sort(X[] xs, int from, int to) {
         final Helper<X> helper = getHelper();
-
-        // TO BE IMPLEMENTED
+        for (int i = from; i < to; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (helper.less(xs[j + 1], xs[j])) {
+                    helper.swap(xs, j, j + 1);
+                } else
+                    break;
+            }
+        }
     }
 
-    public static final String DESCRIPTION = "Insertion sort";
 
     public static <T extends Comparable<T>> void sort(T[] ts) {
         new InsertionSort<T>().mutatingSort(ts);
