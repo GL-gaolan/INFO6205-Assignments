@@ -60,15 +60,15 @@ public class Timer {
         for(int i=0;i<n;i++){
             if(preFunction != null) {
                 t=preFunction.apply(t);
-                }
+            }
             resume();
-            U u=function.apply(supplier.get());
+            U u=function.apply(t);
             pauseAndLap();
             if(postFunction!=null){
                 postFunction.accept(u);
             }
         }
-        resume();
+        //resume();
         return meanLapTime();
     }
 

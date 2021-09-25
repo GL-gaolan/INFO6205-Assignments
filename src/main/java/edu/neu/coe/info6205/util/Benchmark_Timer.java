@@ -4,6 +4,9 @@
 
 package edu.neu.coe.info6205.util;
 
+import edu.neu.coe.info6205.sort.elementary.InsertionSort;
+
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -118,6 +121,111 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
     public Benchmark_Timer(String description, Consumer<T> f) {
         this(description, null, f, null);
     }
+
+
+    /**
+     * (Part 3) Implement a main program to actually run the following benchmarks: measure the running times of this sort,
+     * using four different initial array ordering situations: random, ordered, partially-ordered and reverse-ordered.
+     */
+    public static void main(String[] args){
+        int n= 10000;//n is the length of array.
+        int runTimes=20;//runTimes is the number of runs.
+        Benchmark_Timer<Boolean>benchmarkTimer= new Benchmark_Timer<Boolean>(
+                "InsertionSort",
+                new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) { }
+                });
+        System.out.printf("When n=%d \n",n);
+        //System.out.println("Random Array---"+benchmarkTimer.generateRandomArray(runTimes,n));
+        System.out.println("Ordered Array---"+benchmarkTimer.generateOrderedArray(runTimes,n));
+        //System.out.println("Partially-ordered Array---"+benchmarkTimer.generatePartiallyOrderedArray(runTimes,n));
+        //System.out.println("Reverse-ordered Array---"+benchmarkTimer.generateReverseOrderedArray(runTimes,n));
+
+    }
+
+        //1.Random Array
+    private double generateRandomArray(int runTimes, int n){
+        Integer[] randomArray= new Integer[n];
+        Random random=new Random();
+        for (int i=0;i<n;i++)
+        {
+            randomArray[i]=random.nextInt(n);
+        }
+        Benchmark<Boolean>benchmark=new Benchmark_Timer<>(
+                "testInsertionTimer",
+                null,
+                b->{
+                    new InsertionSort<Integer>().sort(randomArray,0, randomArray.length);
+                },
+        null
+        );
+        double result =benchmark.run(true,runTimes);
+        return result;
+    }
+
+
+        //2.Ordered Array
+        private double generateOrderedArray(int runTimes, int n){
+            Integer[] orderedArray = new Integer[n];
+            for(int i =0; i<n;i++){
+                orderedArray[i]=i;
+            }
+            Benchmark<Boolean>benchmark=new Benchmark_Timer<>(
+                    "testInsertionTimer",
+                    null,
+                    b->{
+                        new InsertionSort<Integer>().sort(orderedArray,0, orderedArray.length);
+                    },
+                    null
+            );
+            double result =benchmark.run(true,runTimes);
+            return result;
+        }
+
+
+        //3.Reverse-ordered Array
+        private double generateReverseOrderedArray(int runTimes, int n){
+            Integer[] reverseOrderedArray=new Integer[n];
+            for(int i=0;i<n;i++){
+                reverseOrderedArray[i]=n-i;
+            }
+            Benchmark<Boolean>benchmark=new Benchmark_Timer<>(
+                    "testInsertionTimer",
+                    null,
+                    b->{
+                        new InsertionSort<Integer>().sort(reverseOrderedArray,0, reverseOrderedArray.length);
+                    },
+                    null
+            );
+            double result =benchmark.run(true,runTimes);
+            return result;
+    }
+
+
+        //4.Partially-ordered Array
+        private double generatePartiallyOrderedArray(int runTimes, int n){
+           Integer[] partiallyOrderedArray= new Integer[n];
+           Random random=new Random();
+           for(int i=0;i<n/2;i++){
+               partiallyOrderedArray[i]=random.nextInt(n/2);
+                }
+           for (int i=n/2; i<n;i++){
+               partiallyOrderedArray[i]=i;
+           }
+           Benchmark<Boolean>benchmark=new Benchmark_Timer<>(
+                        "testInsertionTimer",
+                        null,
+                        b->{
+                            new InsertionSort<Integer>().sort(partiallyOrderedArray,0, partiallyOrderedArray.length);
+                        },
+                        null
+           );
+           double result =benchmark.run(true,runTimes);
+           return result;
+        }
+
+
 
     private final String description;
     private final UnaryOperator<T> fPre;
