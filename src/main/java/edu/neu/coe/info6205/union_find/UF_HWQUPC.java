@@ -7,7 +7,9 @@
  */
 package edu.neu.coe.info6205.union_find;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Height-weighted Quick Union with Path Compression
@@ -82,6 +84,12 @@ public class UF_HWQUPC implements UF {
         validate(p);
         int root = p;
         // TO BE IMPLEMENTED
+        while(root !=getParent(root)){
+            if (this.pathCompression) {
+                doPathCompression(root);
+            }
+            root = getParent(root);
+        }
         return root;
     }
 
@@ -169,6 +177,13 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED make shorter root point to taller one
+        if (height[i]<height[j]){
+            updateParent(i,j);
+            updateHeight(j,i);
+        }else{
+            updateParent(j,i);
+            updateHeight(i,j);
+        }
     }
 
     /**
@@ -176,5 +191,77 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED update parent to value of grandparent
+        updateParent(i,parent[parent[i]]);
     }
+//
+//    /**
+//     * @param n the number of sites
+//     * @return the number of connections
+//     */
+//    private static int count(int n){
+//        UF_HWQUPC client= new UF_HWQUPC(n);
+//        int count =0;
+//        for(int i=0;i<n;i++){
+//            for (int j=i; j<n;j++){
+//                if (!client.isConnected(i,j)){
+//                    client.union(i,j);
+//                    count++;
+//                }
+//            }
+//        }
+//        return count;
+//    }
+//
+//    public static void main(String[] args)throws IOException{
+//        Random random=new Random();
+//        for (int times=0;times<100; times++){
+//            int n = random.nextInt(100);
+//            int count = count(n);
+//            System.out.printf("n is %d, count is %d\n",n,count);
+//        }}
+
+    /**
+     * Suppose we have n "sites". Generate pairs between 0 and n-1. calling connected() to determine
+     * if they are connected and union() if not. Count the number of connections.
+     *
+     * @param n number of "sites"
+     * @return number of connections. i.e. the times of calling connected()
+     */
+    public static int count(int n, boolean doPathCompression){
+        UF_HWQUPC uf = new UF_HWQUPC(n, doPathCompression);
+        Random random = new Random();
+        boolean generated[] = new boolean[n];
+        Arrays.fill(generated,false);
+        int connections=0;
+        boolean loop=true;
+        while(loop) {
+            int p = random.nextInt(n);
+            int q = random.nextInt(n);
+            generated[p] = true;
+            generated[q] = true;
+            connections++;
+            if (!uf.connected(p, q)) {
+                uf.union(p, q);
+            }
+            int index = 0;
+            for (;index < n ; index++) {
+                if(!generated[index]) break;
+            }
+            if(index==n)loop=false;
+        }
+        return connections;
+    }
+
+
+    public static void main(String[] args) {
+        int n = 900;
+        int totalCount = 0;
+        for (int i = 0; i <100 ; i++) {
+            int connectNum=count(n, true);
+            totalCount+=connectNum;
+            System.out.println("The number of sites is: "+n+"\nThe number of connections is: "+connectNum+"\n");
+        }
+        System.out.println("The average number of connections is: "+totalCount/100.0);
+    }
+
 }
