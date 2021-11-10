@@ -18,49 +18,35 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) {
-        int threadCount = 16;
-        ForkJoinPool myPool = new ForkJoinPool(threadCount);
         processArgs(args);
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
         Random random = new Random();
-        int[] array = new int[2000000];
+        int[] array = new int[2500000];
         ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 50; j < 100; j++) {
+        for (int j = 40; j < 100; j++) {
             ParSort.cutoff = 10000 * (j + 1);
             // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
             long time;
-            for (int t = 0; t < 5; t++) {
+            long startTime = System.currentTimeMillis();
+            for (int t = 0; t < 10; t++) {
                 for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-                System.out.println(myPool.getPoolSize());//get pool size before
-                try {
-                    long startTime = System.currentTimeMillis();
-                    ParSort.sort(array, 0, array.length,myPool);
-//                    myPool.awaitTermination(24, TimeUnit.DAYS);
-                    while (myPool.getPoolSize() != 0) {
-                        Thread.sleep(10);
-                    }
-                    long endTime = System.currentTimeMillis();
-                    time = (endTime - startTime);
-                    timeList.add(time);
-                    System.out.println(String.format("Complete the sorting"));
-                    System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t1 time Time:" + time + "ms");
-                } catch (Exception e) {
-                    System.out.println("Exit due to interruption");
-                }
-
+                ParSort.sort(array, 0, array.length);
             }
+            long endTime = System.currentTimeMillis();
+            time = (endTime - startTime);
+            timeList.add(time);
 
 
-
+            System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10times Time:" + time + "ms");
 
         }
         try {
-            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_pool16.csv");
+            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_arraysize25_pool4.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 0;
             for (long i : timeList) {
-                String content = (double) 10000 * (j + 1) / 2000000 + "," + (double) i / 5 + "\n";
+                String content = (double) 10000 * (j + 1) / 2500000 + "," + (double) i / 10 + "\n";
                 j++;
                 bw.write(content);
                 bw.flush();
