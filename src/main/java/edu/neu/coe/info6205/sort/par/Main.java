@@ -21,7 +21,7 @@ public class Main {
         processArgs(args);
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
         Random random = new Random();
-        int[] array = new int[2500000];
+        int[] array = new int[2000000];
         ArrayList<Long> timeList = new ArrayList<>();
         for (int j = 40; j < 100; j++) {
             ParSort.cutoff = 10000 * (j + 1);
@@ -41,12 +41,13 @@ public class Main {
 
         }
         try {
-            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_arraysize25_pool4.csv");
+            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_arraysize20_pool8.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 0;
             for (long i : timeList) {
-                String content = (double) 10000 * (j + 1) / 2500000 + "," + (double) i / 10 + "\n";
+                String content = (double) 10000 * (j + 1) / 2000000 + "," + (double) i / 10 + "\n";
+//                String content = (double) 10000 * (j + 1)  + "," + (double) i / 10 + "\n";
                 j++;
                 bw.write(content);
                 bw.flush();
