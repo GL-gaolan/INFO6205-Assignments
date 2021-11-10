@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) {
-        int threadCount = 4;
+        int threadCount = 16;
         ForkJoinPool myPool = new ForkJoinPool(threadCount);
         processArgs(args);
         System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
@@ -55,7 +55,7 @@ public class Main {
 
         }
         try {
-            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_pool4.csv");
+            FileOutputStream fis = new FileOutputStream("./src/Assignment_Report/Assignment5--ParSort/result_pool16.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 0;
